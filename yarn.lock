@@ -484,11 +484,6 @@
   resolved "https://registry.npmjs.org/@pixi/particle-container/-/particle-container-7.0.4.tgz#107faf78ec7dbd15aaa3b072c86ac583b2f6a692"
   integrity sha512-Njm8KUX5lCNhffc+pbNFXHZl0Lrl4QY9nctcLr3+I7yFe5O2M3jIEGnnBCKEP2L3FLKqD6YrfllYu3dIy3ts5Q==
 
-"@pixi/particle-emitter@*":
-  version "5.0.4"
-  resolved "https://registry.npmjs.org/@pixi/particle-emitter/-/particle-emitter-5.0.4.tgz#40ed334c36c3f1986d5245e427179ddfcb7558c0"
-  integrity sha512-ZKEjRXjBe/xVZrVXC+HGEztmFyOE5GCBEbny0uD5jACFpd3tkUUqmhRxdi6R8Crqx2xe0jRpPuCUsa/eHp23+w==
-
 "@pixi/particles@6.0.4":
   version "6.0.4"
   resolved "https://registry.npmjs.org/@pixi/particles/-/particles-6.0.4.tgz"

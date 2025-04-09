@@ -32,7 +32,7 @@ AccelerationBehavior.editorConfig = {
             name: 'rotate',
             title: 'Rotate with Movement',
             description: 'Rotate the particle with its direction of movement. '
-                + 'While initial movement direction reacts to rotation settings, this overrides any dynamic rotation.',
+				+ 'While initial movement direction reacts to rotation settings, this overrides any dynamic rotation.',
             default: true,
         },
         {

@@ -23,7 +23,7 @@ PathBehavior.editorConfig = {
             name: 'minMult',
             title: 'Minimum Speed Multiplier',
             description: 'A value between minimum speed multipler and 1 is randomly generated and multiplied '
-                + 'with each speed value to generate the actual speed for each particle.',
+				+ 'with each speed value to generate the actual speed for each particle.',
             default: 1,
             min: 0,
             max: 1,

@@ -1,9 +1,9 @@
 import { Point } from '@pixi/math';
 import { Particle } from '../Particle';
-import { rotatePoint, normalize, scaleBy } from '../ParticleUtils';
+import { normalize, rotatePoint, scaleBy } from '../ParticleUtils';
 import { PropertyList } from '../PropertyList';
 import { PropertyNode, ValueList } from '../PropertyNode';
-import { IEmitterBehavior, BehaviorOrder } from './Behaviors';
+import { BehaviorOrder, IEmitterBehavior } from './Behaviors';
 import { BehaviorEditorConfig } from './editor/Types';
 
 /**
@@ -25,63 +25,64 @@ import { BehaviorEditorConfig } from './editor/Types';
  */
 export class SpeedBehavior implements IEmitterBehavior
 {
-    public static type = 'moveSpeed';
-    public static editorConfig: BehaviorEditorConfig = null;
+	public static type = 'moveSpeed';
+	public static editorConfig: BehaviorEditorConfig = null;
 
-    public order = BehaviorOrder.Late;
-    private list: PropertyList<number>;
-    private minMult: number;
-    constructor(config: {
-        /**
-         * Speed of the particles in world units/second, with a minimum value of 0
-         */
-        speed: ValueList<number>;
-        /**
-         * A value between minimum speed multipler and 1 is randomly
-         * generated and multiplied with each speed value to generate the actual speed for each particle.
-         */
-        minMult: number;
-    })
-    {
-        this.list = new PropertyList(false);
-        this.list.reset(PropertyNode.createList(config.speed));
-        this.minMult = config.minMult ?? 1;
-    }
+	public order = BehaviorOrder.Late;
+	private list: PropertyList<number>;
+	private minMult: number;
 
-    initParticles(first: Particle): void
-    {
-        let next = first;
+	constructor(config: {
+		/**
+		 * Speed of the particles in world units/second, with a minimum value of 0
+		 */
+		speed: ValueList<number>;
+		/**
+		 * A value between minimum speed multipler and 1 is randomly
+		 * generated and multiplied with each speed value to generate the actual speed for each particle.
+		 */
+		minMult: number;
+	})
+	{
+	    this.list = new PropertyList(false);
+	    this.list.reset(PropertyNode.createList(config.speed));
+	    this.minMult = config.minMult ?? 1;
+	}
 
-        while (next)
-        {
-            const mult = (Math.random() * (1 - this.minMult)) + this.minMult;
+	initParticles(first: Particle): void
+	{
+	    let next = first;
 
-            next.config.speedMult = mult;
-            if (!next.config.velocity)
-            {
-                next.config.velocity = new Point(this.list.first.value * mult, 0);
-            }
-            else
-            {
-                (next.config.velocity as Point).set(this.list.first.value * mult, 0);
-            }
+	    while (next)
+	    {
+	        const mult = (Math.random() * (1 - this.minMult)) + this.minMult;
 
-            rotatePoint(next.rotation, next.config.velocity);
+	        next.config.speedMult = mult;
+	        if (!next.config.velocity)
+	        {
+	            next.config.velocity = new Point(this.list.first.value * mult, 0);
+	        }
+	        else
+	        {
+	            (next.config.velocity as Point).set(this.list.first.value * mult, 0);
+	        }
 
-            next = next.next;
-        }
-    }
+	        rotatePoint(next.rotation, next.config.velocity);
 
-    updateParticle(particle: Particle, deltaSec: number): void
-    {
-        const speed = this.list.interpolate(particle.agePercent) * particle.config.speedMult;
-        const vel = particle.config.velocity;
+	        next = next.next;
+	    }
+	}
 
-        normalize(vel);
-        scaleBy(vel, speed);
-        particle.x += vel.x * deltaSec;
-        particle.y += vel.y * deltaSec;
-    }
+	updateParticle(particle: Particle, deltaSec: number): void
+	{
+	    const speed = this.list.interpolate(particle.agePercent) * particle.config.speedMult;
+	    const vel = particle.config.velocity;
+
+	    normalize(vel);
+	    scaleBy(vel, speed);
+	    particle.x += vel.x * deltaSec;
+	    particle.y += vel.y * deltaSec;
+	}
 }
 
 /**
@@ -101,55 +102,56 @@ export class SpeedBehavior implements IEmitterBehavior
  */
 export class StaticSpeedBehavior implements IEmitterBehavior
 {
-    public static type = 'moveSpeedStatic';
-    public static editorConfig: BehaviorEditorConfig = null;
+	public static type = 'moveSpeedStatic';
+	public static editorConfig: BehaviorEditorConfig = null;
 
-    public order = BehaviorOrder.Late;
-    private min: number;
-    private max: number;
-    constructor(config: {
-        /**
-         * Minimum speed when initializing the particle.
-         */
-        min: number;
-        /**
-         * Maximum speed when initializing the particle.
-         */
-        max: number;
-    })
-    {
-        this.min = config.min;
-        this.max = config.max;
-    }
+	public order = BehaviorOrder.Late;
+	private min: number;
+	private max: number;
 
-    initParticles(first: Particle): void
-    {
-        let next = first;
+	constructor(config: {
+		/**
+		 * Minimum speed when initializing the particle.
+		 */
+		min: number;
+		/**
+		 * Maximum speed when initializing the particle.
+		 */
+		max: number;
+	})
+	{
+	    this.min = config.min;
+	    this.max = config.max;
+	}
 
-        while (next)
-        {
-            const speed = (Math.random() * (this.max - this.min)) + this.min;
+	initParticles(first: Particle): void
+	{
+	    let next = first;
 
-            if (!next.config.velocity)
-            {
-                next.config.velocity = new Point(speed, 0);
-            }
-            else
-            {
-                (next.config.velocity as Point).set(speed, 0);
-            }
+	    while (next)
+	    {
+	        const speed = (Math.random() * (this.max - this.min)) + this.min;
 
-            rotatePoint(next.rotation, next.config.velocity);
+	        if (!next.config.velocity)
+	        {
+	            next.config.velocity = new Point(speed, 0);
+	        }
+	        else
+	        {
+	            (next.config.velocity as Point).set(speed, 0);
+	        }
 
-            next = next.next;
-        }
-    }
+	        rotatePoint(next.rotation, next.config.velocity);
 
-    updateParticle(particle: Particle, deltaSec: number): void
-    {
-        const velocity = particle.config.velocity;
+	        next = next.next;
+	    }
+	}
 
-        particle.x += velocity.x * deltaSec;
-        particle.y += velocity.y * deltaSec;
-    }
+	updateParticle(particle: Particle, deltaSec: number): void
+	{
+	    const velocity = particle.config.velocity;
+
+	    particle.x += velocity.x * deltaSec;
+	    particle.y += velocity.y * deltaSec;
+	}
 }

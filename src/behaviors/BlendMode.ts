@@ -1,6 +1,6 @@
 import { Particle } from '../Particle';
 import { getBlendMode } from '../ParticleUtils';
-import { IEmitterBehavior, BehaviorOrder } from './Behaviors';
+import { BehaviorOrder, IEmitterBehavior } from './Behaviors';
 import { BehaviorEditorConfig } from './editor/Types';
 
 /**
@@ -18,30 +18,31 @@ import { BehaviorEditorConfig } from './editor/Types';
  */
 export class BlendModeBehavior implements IEmitterBehavior
 {
-    public static type = 'blendMode';
-    public static editorConfig: BehaviorEditorConfig = null;
+	public static type = 'blendMode';
+	public static editorConfig: BehaviorEditorConfig = null;
 
-    public order = BehaviorOrder.Normal;
-    private value: string;
-    constructor(config: {
-        /**
-         * Blend mode of all particles. This value is a key from
-         * [PixiJs's BLEND_MODE enum](https://pixijs.download/release/docs/PIXI.html#BLEND_MODES).
-         */
-        blendMode: string;
-    })
-    {
-        this.value = config.blendMode;
-    }
+	public order = BehaviorOrder.Normal;
+	private value: string;
 
-    initParticles(first: Particle): void
-    {
-        let next = first;
+	constructor(config: {
+		/**
+		 * Blend mode of all particles. This value is a key from
+		 * [PixiJs's BLEND_MODE enum](https://pixijs.download/release/docs/PIXI.html#BLEND_MODES).
+		 */
+		blendMode: string;
+	})
+	{
+	    this.value = config.blendMode;
+	}
 
-        while (next)
-        {
-            next.blendMode = getBlendMode(this.value);
-            next = next.next;
-        }
-    }
+	initParticles(first: Particle): void
+	{
+	    let next = first;
+
+	    while (next)
+	    {
+	        next.blendMode = getBlendMode(this.value);
+	        next = next.next;
+	    }
+	}
 }

@@ -8,22 +8,22 @@ import { PropertyNode, ValueStep } from './PropertyNode';
  */
 // get Texture.from(), only supports V5 and V6 with individual packages
 // eslint-disable-next-line prefer-const
-export let GetTextureFromString:(d:string) => Texture = Texture.from;
+export let GetTextureFromString: (d: string) => Texture = Texture.from;
 
 /**
  * A color value, split apart for interpolation.
  */
 export interface Color {
-    r: number;
-    g: number;
-    b: number;
-    a?: number;
+	r: number;
+	g: number;
+	b: number;
+	a?: number;
 }
 
 export interface EaseSegment {
-    cp: number;
-    s: number;
-    e: number;
+	cp: number;
+	s: number;
+	e: number;
 }
 
 /**
@@ -155,11 +155,11 @@ export function generateEase(segments: EaseSegment[]): SimpleEase
     const qty = segments.length;
     const oneOverQty = 1 / qty;
     /*
-        * Calculates the percentage of change at a given point in time (0-1 inclusive).
-        * @param {Number} time The time of the ease, 0-1 inclusive.
-        * @return {Number} The percentage of the change, 0-1 inclusive (unless your
-        *                  ease goes outside those bounds).
-        */
+		* Calculates the percentage of change at a given point in time (0-1 inclusive).
+		* @param {Number} time The time of the ease, 0-1 inclusive.
+		* @return {Number} The percentage of the change, 0-1 inclusive (unless your
+		*                  ease goes outside those bounds).
+		*/
 
     // eslint-disable-next-line func-names
     return function (time: number): number

@@ -1,9 +1,10 @@
 // export support types for external use
 import * as spawnShapes from './shapes';
+import * as editor from './editor/Types';
+
 export { spawnShapes };
 export * from './Behaviors';
 
-import * as editor from './editor/Types';
 export { editor };
 
 // export all of the individual behaviors

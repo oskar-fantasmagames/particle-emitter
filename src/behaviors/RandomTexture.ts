@@ -1,6 +1,6 @@
 import { Texture } from '@pixi/core';
 import { Particle } from '../Particle';
-import { IEmitterBehavior, BehaviorOrder } from './Behaviors';
+import { BehaviorOrder, IEmitterBehavior } from './Behaviors';
 import { GetTextureFromString } from '../ParticleUtils';
 import { BehaviorEditorConfig } from './editor/Types';
 
@@ -20,32 +20,33 @@ import { BehaviorEditorConfig } from './editor/Types';
  */
 export class RandomTextureBehavior implements IEmitterBehavior
 {
-    public static type = 'textureRandom';
-    public static editorConfig: BehaviorEditorConfig = null;
+	public static type = 'textureRandom';
+	public static editorConfig: BehaviorEditorConfig = null;
 
-    public order = BehaviorOrder.Normal;
-    private textures: Texture[];
-    constructor(config: {
-        /**
-         * Images to use for each particle, randomly chosen from the list.
-         */
-        textures: (Texture|string)[];
-    })
-    {
-        this.textures = config.textures.map((tex) => (typeof tex === 'string' ? GetTextureFromString(tex) : tex));
-    }
+	public order = BehaviorOrder.Normal;
+	private textures: Texture[];
 
-    initParticles(first: Particle): void
-    {
-        let next = first;
+	constructor(config: {
+		/**
+		 * Images to use for each particle, randomly chosen from the list.
+		 */
+		textures: (Texture | string)[];
+	})
+	{
+	    this.textures = config.textures.map((tex) => (typeof tex === 'string' ? GetTextureFromString(tex) : tex));
+	}
 
-        while (next)
-        {
-            const index = Math.floor(Math.random() * this.textures.length);
+	initParticles(first: Particle): void
+	{
+	    let next = first;
 
-            next.texture = this.textures[index];
+	    while (next)
+	    {
+	        const index = Math.floor(Math.random() * this.textures.length);
 
-            next = next.next;
-        }
-    }
+	        next.texture = this.textures[index];
+
+	        next = next.next;
+	    }
+	}
 }
